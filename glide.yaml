@@ -1,0 +1,4 @@
+package: github.com/onezerobinary/web-box
+import:
+- package: github.com/gorilla/mux
+  version: ^1.6.0
