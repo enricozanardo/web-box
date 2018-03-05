@@ -1,20 +1,44 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"github.com/gorilla/mux"
+	"github.com/onezerobinary/web-box/handler"
+	"os"
 )
 
-func main() {
-	r := mux.NewRouter()
-	r.HandleFunc("/", Hello)
-	http.Handle("/", r)
-	fmt.Println("Starting up on 8800")
-	log.Fatal(http.ListenAndServe(":8800", nil))
+type msg struct {
+	Num int
 }
 
-func Hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintln(w, "Hello Enrico!")
+
+const (
+	DEFAULT_PORT = "8800"
+)
+
+
+func main() {
+
+	var port string
+	if port = os.Getenv("PORT"); len(port) == 0 {
+		port = DEFAULT_PORT
+	}
+
+	// Think about that declaration
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
+	http.HandleFunc("/", handler.HomeHandler)
+	http.HandleFunc("/signup", handler.SignUpHandler)
+	http.HandleFunc("/favicon.ico", faviconHandler)
+
+	//Ajax controller
+	http.HandleFunc("/checksignup", handler.CheckSignup)
+
+	log.Printf("Starting app on port %+v\n", port)
+	http.ListenAndServe(":"+port, nil)
+}
+
+
+func faviconHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "/static/images/favicon.ico")
 }

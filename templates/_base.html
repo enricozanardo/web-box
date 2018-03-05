@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{{ template "title" . }}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/static/stylesheets/style.css" />
+	<link rel="stylesheet" href="/static/stylesheets/bootstrap.min.css" />
+	<script src="/static/js/jquery-3.2.1.min.js"></script>
+	<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+</head>
+<body>
+<script src="/static/js/google-analytics.js"></script>
+<div id="particles-js"></div>
+
+	<div class="container">
+		<div class="header clearfix">
+			<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<a class="navbar-brand" href="/">
+					<img src="/static/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+					OneZero Binary
+				</a>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-md-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/blockchain">Blockchain</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/cryptocurrency">Cryptocurrencies</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/teaching">Teaching</a>
+						</li>
+						{{if .LoggedIn}}
+						<li class="nav-item">
+							<a class="nav-link" href="/auth">Auth</a>
+						</li>
+						{{end}}
+					</ul>
+					<ul class="nav navbar-nav pull-right">
+						{{if .LoggedIn}}
+						<li class="nav-item">
+							<a class="nav-link" href="/signout">SignOut</a>
+						</li>
+						{{else}}
+						<li class="nav-item">
+							<a class="nav-link" href="/signin">Signin</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/signup">Signup</a>
+						</li>
+						{{end}}
+					</ul>
+				</div>
+			</nav>
+		</div>
+
+		{{ template "content" . }}
+
+		<footer class="footer">
+			<p>&copy; OneZero Binary 2017 - VAT nr: MT22492833</p>
+		</footer>
+	</div>
+
+	<script src="/static/js/particles.js"></script>
+	<script src="/static/js/app.js"></script>
+</body>
+</html>

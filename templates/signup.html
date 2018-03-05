@@ -1,0 +1,50 @@
+{{ define "title" }}Signup{{ end }}
+{{ define "content"}}
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card text-center">
+            <div class="card-block">
+                <h3 class="card-title">
+                    <p>SignUp</p>
+                </h3>
+                <p class="card-text">
+                    <form enctype="multipart/form-data" method="post" name="fileinfo">
+                        <div class="form-group">
+                            <label for="inputEmail">Email address</label>
+                            <input type="email" class="form-control" name="inputEmail" id="inputEmail"
+                                   aria-describedby="emailHelp" placeholder="Enter email"
+                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required="required" >
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            <p class="form-field-err" id="username-err"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword1">Password</label>
+                            <input type="password" class="form-control" name="inputPassword1"
+                                   id="inputPassword1" placeholder="Password"
+                                   {{/*pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"*/}}
+                                   title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword2">Repeat Password</label>
+                            <input type="password" class="form-control" name="inputPassword2" id="inputPassword2" placeholder="Password">
+                        </div>
+                        <p class="form-field-err" id="password-err"></p>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="check" name="check">
+                                I agree on <a href="/policy">terms and conditions</a>
+                            </label>
+                        </div>
+                        <p class="form-field-err" id="policy-err"></p>
+                        <input type="submit" class="btn btn-primary" value="Send" />
+                    </form>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/e-signup.js"></script>
+
+{{ end }}
