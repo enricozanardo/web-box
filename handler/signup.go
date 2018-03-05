@@ -28,7 +28,7 @@ func SignUpHandler(w http.ResponseWriter, req *http.Request) {
 		http.SetCookie(w, sessionCookie)
 	}
 
-	// rendxer the page
+	// render the page
 	signup.Execute(w, nil)
 }
 
@@ -74,8 +74,6 @@ func CheckSignup(w http.ResponseWriter, req *http.Request) {
 		}
 
 		byteSlice, _ := json.Marshal(response)
-
-		fmt.Println(string(byteSlice))
 
 		fmt.Fprint(w, string(byteSlice))
 	}

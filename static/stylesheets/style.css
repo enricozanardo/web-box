@@ -3,9 +3,13 @@ html {
 	height: 100%
 }
 
+a {
+	color: #D92823;
+}
+
 canvas {
 	display: inline-block;
-	background-color: #575756;
+	background-color: #ffffff;
 	z-index:-10;
 }
 
@@ -30,7 +34,7 @@ canvas {
 
 .carousel-title {
 	margin-bottom: 4.5rem;
-	color: #0275ff;
+	color: #D92823;
 	letter-spacing: 0.8rem;
 }
 
@@ -42,7 +46,7 @@ canvas {
 
 .carousel-title-other {
 	margin-bottom: 15.5rem;
-	color: #0275ff;
+	color: #D92823;
 	letter-spacing: 0.8rem;
 }
 
@@ -63,7 +67,7 @@ canvas {
     width: 100%;
     text-align: -webkit-center;
     font-size: xx-large;
-    color: #009ee3;
+    color: #D92823;
 }
 
 .card-text-address-title {
@@ -97,12 +101,12 @@ canvas {
 
 .accountNotFound {
 	text-align: center;
-	color: #009ee3;
+	color: #D92823;
 }
 
 .card-title {
 	text-align: center;
-	color: #009ee3;
+	color: #D92823;
 }
 
 .card-text-coffee {
@@ -144,12 +148,10 @@ card-text-panel {
 	margin-top: 1.0rem;
 	border-radius: 10px;
 	color: #fff;
-	background-color: #009ee3;
+	background-color: #D92823;
 	border: 1px solid rgba(0,158,227, .90);
 	text-align:center!important
 }
-
-
 
 .card-main {
 	background-color: rgba(245, 245, 245, 1);
