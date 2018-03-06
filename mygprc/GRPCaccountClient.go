@@ -2,11 +2,14 @@ package mygprc
 
 
 import (
-	pb_account "github.com/onezerobinary/db-box/proto/account"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"github.com/goinggo/tracelog"
 	"os"
+	"crypto/sha1"
+	"encoding/hex"
+	"io"
+	pb_account "github.com/onezerobinary/db-box/proto/account"
 )
 
 const (
@@ -34,8 +37,19 @@ func StopGRPCConnection(connection *grpc.ClientConn){
 	}
 }
 
+func GenerateToken(username string, password string) (token string){
+	// Create the hash sha1 of the username and password
+	h1 := sha1.New()
+	io.WriteString(h1, username)
+	io.WriteString(h1, password)
 
-func CreateAccount(account *pb_account.Account) (accountResponse pb_account.Response)  {
+	token = hex.EncodeToString(h1.Sum(nil))
+
+	tracelog.Completed("database","GenerateToken")
+	return token
+}
+
+func CreateAccount(account *pb_account.Account) (accountResponse *pb_account.Response)  {
 
 	conn := StartGRPCConnection()
 	defer StopGRPCConnection(conn)
@@ -55,5 +69,81 @@ func CreateAccount(account *pb_account.Account) (accountResponse pb_account.Resp
 		tracelog.Trace("GRPCaccountClient", "CreateAccount", "It was not possible to add a new Account into DB")
 	}
 
-	return *resp
+	return resp
 }
+
+func GetAccountByCredentials(credentials *pb_account.Credentials)(account *pb_account.Account) {
+
+	conn := StartGRPCConnection()
+	defer StopGRPCConnection(conn)
+
+	client := pb_account.NewAccountServiceClient(conn)
+
+	account, err := client.GetAccountByCredentials(context.Background(), credentials)
+
+	if err != nil {
+		tracelog.Errorf(err, "GRPCaccountClient", "GetAccountByCredentials", "Error: It was not possible to retrieve the account")
+		os.Exit(1)
+	}
+
+	tracelog.Trace("GRPCaccountClient", "GetAccountByCredentials", "An account is retrieved")
+
+	return account
+}
+
+// Get an Account given the Token
+func GetAccountByToken(token *pb_account.Token)(pb_account.Account) {
+	conn := StartGRPCConnection()
+	defer StopGRPCConnection(conn)
+
+	client := pb_account.NewAccountServiceClient(conn)
+
+	account, err := client.GetAccountByToken(context.Background(), token)
+
+	if err != nil {
+		tracelog.Errorf(err, "GRPCaccountClient", "GetAccountByToken", "Error: It was not possible to retrieve the account")
+		os.Exit(1)
+	}
+
+	tracelog.Trace("GRPCaccountClient", "GetAccountByToken", "An account is retrieved")
+
+	return *account
+}
+
+// Update an Account given the updated Account
+func UpdateAccount (account *pb_account.Account )(response pb_account.Response) {
+	return
+}
+
+// Delete an Account given the Token
+func DeleteAccount (token *pb_account.Token)(response pb_account.Response) {
+	return
+}
+
+// Check if an email address is already used
+func CheckEmail (email *pb_account.Email)(response pb_account.Response) {
+	return
+}
+
+// Get the Status of an account given the Token
+func GetAccountStatus (token *pb_account.Token) (status pb_account.Status) {
+	return
+}
+
+// Set the Status of an account given the Updated Status
+func SetAccountStatus (updateStatus *pb_account.UpdateStatus)(response pb_account.Response) {
+	return
+}
+
+// Get all the accounts based on a specific Status
+func GetAccountsByStatus (status *pb_account.Status)(accounts pb_account.Accounts ) {
+	return
+}
+
+//Get the account collection
+func GetAccounts (empty pb_account.Empty)(accounts pb_account.Accounts) {
+	return
+}
+
+
+
