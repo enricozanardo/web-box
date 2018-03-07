@@ -1,6 +1,7 @@
 var nameErr = document.querySelector('#username-err');
 var passwordErr = document.querySelector('#password-err');
 var policyErr = document.querySelector('#policy-err');
+var success = document.querySelector('#success');
 
 var form = document.forms.namedItem("fileinfo");
 
@@ -18,9 +19,10 @@ form.addEventListener('submit', function(ev) {
             var response = JSON.parse(xhr.responseText);
             console.log(response);
 
-            nameErr.innerHTML = 'Username already taken - <a href="/signin">singin</a>?' + response.Email;
-            passwordErr.innerHTML = response.Password;
-            policyErr.innerHTML = response.Policy;
+            nameErr.innerHTML = response.EmailMessage;
+            success.innerHTML = response.LoginMessage;
+            passwordErr.innerHTML = response.PasswordMessage;
+            policyErr.innerHTML = response.PolicyMessage;
         }
     };
 

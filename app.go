@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"github.com/onezerobinary/web-box/handler"
 	"os"
+	"github.com/goinggo/tracelog"
 )
 
 type msg struct {
@@ -18,6 +19,9 @@ const (
 
 
 func main() {
+
+	tracelog.Start(tracelog.LevelTrace)
+	defer tracelog.Stop()
 
 	var port string
 	if port = os.Getenv("PORT"); len(port) == 0 {

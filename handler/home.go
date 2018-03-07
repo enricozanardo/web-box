@@ -4,8 +4,6 @@ import (
 	"net/http"
 	"html/template"
 	"github.com/satori/go.uuid"
-	"fmt"
-	"github.com/onezerobinary/web-box/model"
 )
 
 var home = template.Must(template.ParseFiles(
@@ -25,12 +23,6 @@ func HomeHandler(w http.ResponseWriter, req *http.Request) {
 		}
 		http.SetCookie(w, sessionCookie)
 	}
-
-	warning := "Ciao"
-	m := model.Message{Warning: warning}
-
-	fmt.Println("message: ", m)
-	//home.Execute(w, m)
 
 	home.Execute(w, nil)
 }
