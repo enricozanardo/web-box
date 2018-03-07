@@ -32,7 +32,12 @@ func GetSessionCookie(w http.ResponseWriter, req *http.Request)(sessionCookie *h
 
 	if err != nil {
 		// Create a new cookie
-		sessionID := uuid.NewV4()
+		sessionID, err := uuid.NewV4()
+
+		if err != nil {
+			tracelog.Errorf(err, "signin", "GetSessionCookie", "Not able to generate the uuid")
+		}
+
 		sessionCookie = &http.Cookie{
 			Name: "session",
 			Value: sessionID.String(),

@@ -26,7 +26,12 @@ func SignUpHandler(w http.ResponseWriter, req *http.Request) {
 
 	if err != nil {
 		// Create a new cookie
-		sessionID := uuid.NewV4()
+		sessionID, err := uuid.NewV4()
+
+		if err != nil {
+			tracelog.Errorf(err, "signup", "SignUpHandler", "Not able to generate the uuid")
+		}
+
 		sessionCookie = &http.Cookie{
 			Name: "session",
 			Value: sessionID.String(),
