@@ -2,3 +2,13 @@ package: github.com/onezerobinary/web-box
 import:
 - package: github.com/gorilla/mux
   version: ^1.6.0
+- package: github.com/onezerobinary/web-box/handler
+- package: github.com/goinggo/tracelog
+- package: golang.org/x/net/context
+- package: github.com/onezerobinary/db-box/proto/account
+- package: google.golang.org/grpc
+- package: github.com/satori/go.uuid
+- package: github.com/onezerobinary/web-box/model
+- package: github.com/onezerobinary/web-box/mygprc
+- package: github.com/pkg/errors
+
