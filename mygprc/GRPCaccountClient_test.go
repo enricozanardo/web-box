@@ -4,6 +4,7 @@ import (
 	"testing"
 	"github.com/goinggo/tracelog"
 	pb_account "github.com/onezerobinary/db-box/proto/account"
+	"fmt"
 )
 
 func TestCreateAccount(t *testing.T){
@@ -13,10 +14,12 @@ func TestCreateAccount(t *testing.T){
 
 	//fakeStatus := pb_account.Status{pb_account.Status_NOTSET}
 
-	username := "Zippi"
-	password := "Zirri"
+	username := "enrico@enrico.com"
+	password := "enrico"
 
 	faketoken := GenerateToken(username, password)
+
+	fmt.Println(faketoken)
 
 	token := pb_account.Token{faketoken}
 	status := pb_account.Status{pb_account.Status_NOTSET}
@@ -44,8 +47,8 @@ func TestGetAccountByToken(t *testing.T) {
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
-	username := "Zippo"
-	password := "Zirro"
+	username := "enrico@enrico.com"
+	password := "enrico"
 
 	faketoken := GenerateToken(username, password)
 
@@ -63,8 +66,8 @@ func TestGetAccountByCredentials(t *testing.T) {
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
-	username := "Tino"
-	password := "Zuccon"
+	username := "enrico@enrico.com"
+	password := "enrico"
 
 	faketoken := GenerateToken(username, password)
 
@@ -84,8 +87,8 @@ func TestUpdateAccount(t *testing.T) {
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
-	username := "Zippo"
-	password := "Zirro"
+	username := "enrico@enrico.com"
+	password := "enrico"
 
 	faketoken := GenerateToken(username, password)
 
@@ -110,31 +113,12 @@ func TestUpdateAccount(t *testing.T) {
 	}
 }
 
-func TestDeleteAccount(t *testing.T) {
-
-	tracelog.Start(tracelog.LevelTrace)
-	defer tracelog.Stop()
-
-	username := "Tino"
-	password := "Zuccon"
-
-	faketoken := GenerateToken(username, password)
-
-	token := pb_account.Token{faketoken}
-
-	response := DeleteAccount(&token)
-
-	if response.Code != 200 {
-		t.Errorf("Error to delete the account")
-	}
-}
-
 func TestCheckEmail(t *testing.T) {
 
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
-	fakeEmail := pb_account.Email{"Tano"}
+	fakeEmail := pb_account.Email{"enrico@enrico.com"}
 
 	response := CheckEmail(&fakeEmail)
 
@@ -146,28 +130,12 @@ func TestCheckEmail(t *testing.T) {
 		t.Errorf("Error to check the email")
 	}
 }
-
-func TestGetAccountStatus(t *testing.T) {
-
-	tracelog.Start(tracelog.LevelTrace)
-	defer tracelog.Stop()
-
-	faketoken := pb_account.Token{"21718086c9234b00096229ce2697b8f1d2a7acaf"}
-
-	status := GetAccountStatus(&faketoken)
-
-	if status.Status == pb_account.Status_NOTSET {
-		t.Errorf("Error to retrieve the account status")
-	}
-
-}
-
 func TestSetAccountStatus(t *testing.T) {
 
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
-	faketoken := pb_account.Token{"e760a31772086f4358c745f7ffeaa78a0987c4ce"}
+	faketoken := pb_account.Token{"2284fe70432bbef5a5354653c88d8e5cda2880dd"}
 	newStatus := pb_account.Status{pb_account.Status_ENABLED}
 
 	updateStatus := pb_account.UpdateStatus{&faketoken, &newStatus}
@@ -179,12 +147,27 @@ func TestSetAccountStatus(t *testing.T) {
 	}
 }
 
+func TestGetAccountStatus(t *testing.T) {
+
+	tracelog.Start(tracelog.LevelTrace)
+	defer tracelog.Stop()
+
+	faketoken := pb_account.Token{"2284fe70432bbef5a5354653c88d8e5cda2880dd"}
+
+	status := GetAccountStatus(&faketoken)
+
+	if status.Status == pb_account.Status_NOTSET {
+		t.Errorf("Error to retrieve the account status")
+	}
+
+}
+
 func TestGetAccountsByStatus(t *testing.T) {
 
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
-	fakeStatus := pb_account.Status{pb_account.Status_SUSPENDED}
+	fakeStatus := pb_account.Status{pb_account.Status_ENABLED}
 
 	accounts :=GetAccountsByStatus(&fakeStatus)
 
@@ -212,6 +195,25 @@ func TestGetAccounts(t *testing.T) {
 
 	if len(accounts.Accounts) == 0 {
 		t.Errorf("Zero accounts are retreived")
+	}
+}
+
+func TestDeleteAccount(t *testing.T) {
+
+	tracelog.Start(tracelog.LevelTrace)
+	defer tracelog.Stop()
+
+	username := "enrico@enrico.com"
+	password := "enrico"
+
+	faketoken := GenerateToken(username, password)
+
+	token := pb_account.Token{faketoken}
+
+	response := DeleteAccount(&token)
+
+	if response.Code != 200 {
+		t.Errorf("Error to delete the account")
 	}
 }
 
