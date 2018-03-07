@@ -12,7 +12,8 @@ import (
 )
 
 const (
-	ADDRESS = "localhost:1982"
+	//ADDRESS = "localhost:1982"
+	ADDRESS = "172.104.230.81:1982"
 )
 
 func StartGRPCConnection() (connection *grpc.ClientConn){
