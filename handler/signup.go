@@ -56,8 +56,6 @@ func CheckSignup(w http.ResponseWriter, req *http.Request) {
 
 		response := mygprc.CheckEmail(&dbEmail)
 
-		fmt.Println("message: ", message.EmailMessage)
-
 		if response.Code == 200 && response.Token != nil {
 			tracelog.Trace("signup", "CheckSignup", "Email already taken")
 			message.EmailMessage = "Username already taken: " + usr + " - <a href=\"/signin\">singin</a>?"
@@ -115,7 +113,6 @@ func createNewAccount(username, password string) (err error) {
 	layout := "2006-01-02T15:04:05.000Z"
 	c := string(created.Format(layout))
 	e := string(expiration.Format(layout))
-
 
 	account := pb_account.Account{
 		userToken,

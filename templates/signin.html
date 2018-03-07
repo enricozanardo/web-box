@@ -9,25 +9,26 @@
                     <p>SignIn</p>
                 </h3>
                 <p class="card-text">
-                    <form method="post">
-
+                    <form enctype="multipart/form-data" method="post" name="fileinfo">
                         <div class="form-group">
                             <label for="inputEmail">Email address</label>
                             <input type="email" class="form-control" name="inputEmail" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                            <p class="form-field-err" id="username-err"></p>
                         </div>
                         <div class="form-group">
                             <label for="inputPassword">Password</label>
                             <input type="password" class="form-control" name="inputPassword" id="inputPassword" placeholder="Password">
+                            <p class="form-field-err" id="password-err"></p>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <input type="submit" class="btn btn-primary" value="Send" />
+                        <p class="form-field-err" id="success"></p>
                     </form>
-                    <p>
-                        <h6 class="form-field-err"><a href="/signup">{{.Warning}}</a></h6>
-                    </p>
                 </p>
             </div>
         </div>
     </div>
 </div>
+
+<script src="/static/js/e-signin.js"></script>
 
 {{ end }}

@@ -39,6 +39,7 @@ func main() {
 
 	//Ajax controller
 	http.HandleFunc("/checksignup", handler.CheckSignup)
+	http.HandleFunc("/checksignin", handler.CheckSignin)
 
 	log.Printf("Starting app on port %+v\n", port)
 	http.ListenAndServe(":"+port, nil)

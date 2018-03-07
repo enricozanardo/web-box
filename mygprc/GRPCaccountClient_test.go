@@ -167,8 +167,8 @@ func TestSetAccountStatus(t *testing.T) {
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
-	faketoken := pb_account.Token{"21718086c9234b00096229ce2697b8f1d2a7acaf"}
-	newStatus := pb_account.Status{pb_account.Status_SUSPENDED}
+	faketoken := pb_account.Token{"e760a31772086f4358c745f7ffeaa78a0987c4ce"}
+	newStatus := pb_account.Status{pb_account.Status_ENABLED}
 
 	updateStatus := pb_account.UpdateStatus{&faketoken, &newStatus}
 
