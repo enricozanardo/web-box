@@ -1,5 +1,6 @@
 # iron/go:dev is the alpine image with the go tools added
 FROM iron/go:dev
+
 WORKDIR /app
 # Set an env var that matches github repo name,
 ENV SRC_DIR=/go/src/github.com/onezerobinary/web-box
@@ -12,5 +13,3 @@ RUN cd $SRC_DIR; glide install
 
 RUN cd $SRC_DIR; go build -o web-box; cp web-box /app/
 ENTRYPOINT ["./web-box"]
-
-EXPOSE 8800
