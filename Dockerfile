@@ -12,3 +12,5 @@ RUN cd $SRC_DIR; glide install
 
 RUN cd $SRC_DIR; go build -o web-box; cp web-box /app/
 ENTRYPOINT ["./web-box"]
+
+EXPOSE 8800
