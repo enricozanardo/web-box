@@ -8,12 +8,12 @@ import (
 )
 
 var home = template.Must(template.ParseFiles(
-	"templates/_base.html",
+	 "templates/_base.html",
 	"templates/index.html",
 ))
 
-
 func HomeHandler(w http.ResponseWriter, req *http.Request) {
+
 	// get cookie
 	sessionCookie, err := req.Cookie("session")
 	if err != nil {

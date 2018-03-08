@@ -2,7 +2,6 @@ package handler
 
 import (
 	"net/http"
-	"html/template"
 	"github.com/satori/go.uuid"
 	"fmt"
 	"encoding/json"
@@ -12,11 +11,12 @@ import (
 	"github.com/onezerobinary/web-box/mygprc"
 	"time"
 	"github.com/pkg/errors"
+	"html/template"
 )
 
 var signup = template.Must(template.ParseFiles(
 	"templates/_base.html",
-	"templates/signup.html",
+	 "templates/signup.html",
 ))
 
 func SignUpHandler(w http.ResponseWriter, req *http.Request) {

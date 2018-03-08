@@ -2,7 +2,6 @@ package handler
 
 import (
 	"net/http"
-	"html/template"
 	"github.com/satori/go.uuid"
 	"github.com/goinggo/tracelog"
 	"github.com/onezerobinary/web-box/model"
@@ -10,18 +9,20 @@ import (
 	pb_account "github.com/onezerobinary/db-box/proto/account"
 	"fmt"
 	"encoding/json"
+	"html/template"
 )
 
 var signin = template.Must(template.ParseFiles(
-	"templates/_base.html",
-	"templates/signin.html",
+	 "templates/_base.html", "templates/signin.html",
 ))
 
 var dbSession = map[string]pb_account.Token{} // sessionID, userID
 
 
 func SignInHandler(w http.ResponseWriter, req *http.Request) {
+
 	// render the page
+
 	signin.Execute(w, nil)
 }
 

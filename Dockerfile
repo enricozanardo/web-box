@@ -11,5 +11,9 @@ RUN go get -v -u github.com/Masterminds/glide
 RUN export PATH=$SRC_DIR/bin:$PATH
 RUN cd $SRC_DIR; glide install
 
+# copy the static folders
+RUN cd $SRC_DIR; cp -R templates /app/.
+RUN cd $SRC_DIR; cp -R static /app/.
+
 RUN cd $SRC_DIR; go build -o web-box; cp web-box /app/
 ENTRYPOINT ["./web-box"]
