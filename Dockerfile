@@ -12,4 +12,4 @@ RUN export PATH=$SRC_DIR/bin:$PATH
 RUN cd $SRC_DIR; glide install
 
 RUN cd $SRC_DIR; go build -o web-box; cp web-box /app/
-ENTRYPOINT ["./myapp"]
+ENTRYPOINT ["./web-box"]
