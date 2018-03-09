@@ -7,6 +7,7 @@ import (
 	"github.com/onezerobinary/web-box/model"
 	"github.com/goinggo/tracelog"
 	pb_account "github.com/onezerobinary/db-box/proto/account"
+	pb_email "github.com/onezerobinary/email-box/proto"
 	"github.com/onezerobinary/web-box/mygprc"
 	"time"
 	"github.com/pkg/errors"
@@ -78,8 +79,20 @@ func CheckSignup(w http.ResponseWriter, req *http.Request) {
 			if err != nil {
 				message.LoginMessage = err.Error()
 			} else {
-				// if ok then send the email
+				//if ok then send the email
+				message.Allowed = true
 				message.LoginMessage = "Well done! Your account has been made, please verify it by clicking the activation link that has been send to your email"
+
+				userToken := mygprc.GenerateToken(usr, psw1)
+				recipient := pb_email.Recipient{usr,userToken, 0}
+
+				response := mygprc.SendEmail(&recipient)
+
+				if response.Code != 200 {
+					message.LoginMessage = "It was not possible to send the email"
+				} else {
+					message.LoginMessage = "Well done! Your account has been made, please verify it by clicking the activation link that has been send to your email"
+				}
 			}
 		}
 
