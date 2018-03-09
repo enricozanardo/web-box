@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	EMAILSERVICEADDRESS = "localhost:1976"    // Development
-	//EMAILSERVICEADDRESS = "172.104.230.81:1976" // Staging environment
-	ADDRESS = "localhost:1982"    // Development
-	//ADDRESS = "172.104.230.81:1982" // Staging environment
+	//EMAILSERVICEADDRESS = "localhost:1976"    // Development
+	//ADDRESS = "localhost:1982"    // Development
+	EMAILSERVICEADDRESS = "172.104.230.81:1976" // Staging environment
+	ADDRESS = "172.104.230.81:1982" // Staging environment
 )
 
 func StartEmailGRPCConnection() (connection *grpc.ClientConn){
