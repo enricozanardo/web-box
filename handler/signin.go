@@ -21,9 +21,17 @@ var dbSession = map[string]pb_account.Token{} // sessionID, userID
 
 func SignInHandler(w http.ResponseWriter, req *http.Request) {
 
-	// render the page
+	loggedIn := AlreadyLoggedIn(req)
 
-	signin.Execute(w, nil)
+	message := model.MessageLoggedIn{}
+
+	if loggedIn {
+		http.Redirect(w, req, "/dashboard", http.StatusSeeOther)
+	}
+
+	message.AlreadyLoggedIn = false
+
+	signin.Execute(w, message)
 }
 
 
@@ -68,7 +76,6 @@ func CheckSignin(w http.ResponseWriter, req *http.Request) {
 
 		account := mygprc.GetAccountByCredentials(&credentials)
 
-
 		if account.Token.Token != token.Token {
 			//User not present into the system -> Signup ?
 			message.LoginMessage = "User not present into the system, please - <a href=\"/signup\">singup</a>"
@@ -97,9 +104,8 @@ func CheckSignin(w http.ResponseWriter, req *http.Request) {
 			dbSession[cookie.Value] = token
 
 			tracelog.Trace("signin", "CheckSignin", "Token added to Session")
-			//TODO: perform the login!
-
-
+			// perform the login!
+			message.Allowed = true
 		}
 
 		// send back the errors!

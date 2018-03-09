@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"html/template"
+	"github.com/onezerobinary/web-box/model"
 )
 
 var policy = template.Must(template.ParseFiles(
@@ -12,5 +13,17 @@ var policy = template.Must(template.ParseFiles(
 
 func PolicyHandler(w http.ResponseWriter, req *http.Request) {
 
-	policy.Execute(w, nil)
+	loggedIn := AlreadyLoggedIn(req)
+
+	message := model.MessageLoggedIn{}
+
+	if loggedIn {
+		//Redirect to home
+		http.Redirect(w, req, "/dashboard", http.StatusSeeOther)
+	}
+
+	message.AlreadyLoggedIn = false
+
+	policy.Execute(w, message)
+
 }

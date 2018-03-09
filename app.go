@@ -34,6 +34,7 @@ func main() {
 	http.HandleFunc("/policy", handler.PolicyHandler)
 	http.HandleFunc("/signin", handler.SignInHandler)
 	http.HandleFunc("/signup", handler.SignUpHandler)
+	http.HandleFunc("/signout", handler.SignOutHandler)
 	http.HandleFunc("/dashboard", handler.DashboardHandler)
 
 	//Ajax controller

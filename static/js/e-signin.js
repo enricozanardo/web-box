@@ -21,6 +21,11 @@ form.addEventListener('submit', function(ev) {
             nameErr.innerHTML = response.EmailMessage;
             passwordErr.innerHTML = response.PasswordMessage;
             success.innerHTML = response.LoginMessage;
+
+            // Redirect to Dashboad
+            if (response.Allowed == true) {
+                window.location = "/dashboard";
+            }
         }
     };
 

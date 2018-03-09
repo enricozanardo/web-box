@@ -5,6 +5,7 @@ type Message struct {
 	PasswordMessage string
 	PolicyMessage string
 	LoginMessage string
+	Allowed bool
 }
 
 type MessageLoggedIn struct {

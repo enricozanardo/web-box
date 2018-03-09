@@ -2,7 +2,6 @@ package handler
 
 import (
 	"net/http"
-	"github.com/satori/go.uuid"
 	"fmt"
 	"encoding/json"
 	"github.com/onezerobinary/web-box/model"
@@ -21,26 +20,18 @@ var signup = template.Must(template.ParseFiles(
 
 func SignUpHandler(w http.ResponseWriter, req *http.Request) {
 
-	// Get the cookie
-	sessionCookie, err := req.Cookie("session")
+	loggedIn := AlreadyLoggedIn(req)
 
-	if err != nil {
-		// Create a new cookie
-		sessionID, err := uuid.NewV4()
+	message := model.MessageLoggedIn{}
 
-		if err != nil {
-			tracelog.Errorf(err, "signup", "SignUpHandler", "Not able to generate the uuid")
-		}
-
-		sessionCookie = &http.Cookie{
-			Name: "session",
-			Value: sessionID.String(),
-		}
-		http.SetCookie(w, sessionCookie)
+	if loggedIn {
+		//Redirect to home
+		http.Redirect(w, req, "/dashboard", http.StatusSeeOther)
 	}
 
-	// render the page
-	signup.Execute(w, nil)
+	message.AlreadyLoggedIn = false
+
+	signup.Execute(w, message)
 }
 
 
