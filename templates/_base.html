@@ -27,14 +27,14 @@
 
 				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 					<ul class="navbar-nav mr-auto mt-2 mt-md-0">
-						{{if .LoggedIn}}
+						{{if .AlreadyLoggedIn}}
 						<li class="nav-item">
-							<a class="nav-link" href="/auth">Auth</a>
+							<a class="nav-link" href="/auth">Dashboard</a>
 						</li>
 						{{end}}
 					</ul>
 					<ul class="nav navbar-nav pull-right">
-						{{if .LoggedIn}}
+						{{if .AlreadyLoggedIn}}
 						<li class="nav-item">
 							<a class="nav-link" href="/signout">SignOut</a>
 						</li>

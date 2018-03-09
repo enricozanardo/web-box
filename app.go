@@ -29,11 +29,12 @@ func main() {
 	// Think about that declaration
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
-	http.HandleFunc("/", handler.HomeHandler)
+	http.HandleFunc("/", handler.SignInHandler)
 	http.HandleFunc("/favicon.ico", faviconHandler)
 	http.HandleFunc("/policy", handler.PolicyHandler)
 	http.HandleFunc("/signin", handler.SignInHandler)
 	http.HandleFunc("/signup", handler.SignUpHandler)
+	http.HandleFunc("/dashboard", handler.DashboardHandler)
 
 	//Ajax controller
 	http.HandleFunc("/checksignup", handler.CheckSignup)

@@ -6,3 +6,7 @@ type Message struct {
 	PolicyMessage string
 	LoginMessage string
 }
+
+type MessageLoggedIn struct {
+	AlreadyLoggedIn bool
+}

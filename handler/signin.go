@@ -71,8 +71,7 @@ func CheckSignin(w http.ResponseWriter, req *http.Request) {
 
 		if account.Token.Token != token.Token {
 			//User not present into the system -> Signup ?
-			//TODO: add the html text
-			message.LoginMessage = "User not present into the system, please Signup"
+			message.LoginMessage = "User not present into the system, please - <a href=\"/signup\">singup</a>"
 		}
 
 		if account.Token.Token == token.Token {
@@ -99,6 +98,7 @@ func CheckSignin(w http.ResponseWriter, req *http.Request) {
 
 			tracelog.Trace("signin", "CheckSignin", "Token added to Session")
 			//TODO: perform the login!
+
 
 		}
 
