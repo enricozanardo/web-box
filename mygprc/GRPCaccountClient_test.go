@@ -12,8 +12,6 @@ func TestCreateAccount(t *testing.T){
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
-	//fakeStatus := pb_account.Status{pb_account.Status_NOTSET}
-
 	username := "enrico@enrico.com"
 	password := "enrico"
 

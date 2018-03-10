@@ -10,8 +10,8 @@ import (
 
 const (
 	//EMAILSERVICEADDRESS = "localhost:1976"    // Development
-	//ADDRESS = "localhost:1982"    // Development
 	EMAILSERVICEADDRESS = "172.104.230.81:1976" // Staging environment
+	//ADDRESS = "localhost:1982"    // Development
 	ADDRESS = "172.104.230.81:1982" // Staging environment
 )
 
@@ -46,13 +46,11 @@ func SendEmail(recipient *pb_email.Recipient) (response *pb_email.EmailResponse)
 	resp, err := client.SendEmail(context.Background(), recipient)
 
 	if err != nil {
-		tracelog.Errorf(err, "GRPCemailClient", "SendEmail", "Error: Account not created")
+		tracelog.Errorf(err, "GRPCemailClient", "SendEmail", "Error: Email not sent")
 		os.Exit(1)
 	}
 
-	if resp.Code == 200 {
-		tracelog.Trace("GRPCemailClient", "SendEmail", "Email successfully sent")
-	} else {
+	if resp.Code != 200 {
 		tracelog.Trace("GRPCemailClient", "SendEmail", "It was not possible to send the email")
 	}
 
