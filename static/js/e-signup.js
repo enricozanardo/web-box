@@ -13,16 +13,7 @@ form.addEventListener('submit', function(ev) {
 
     progress.style.display = 'center';
 
-    progress.hidden = false;
-    xhr.onprogress = function (e) {
-        progress.max = 100;
-
-        for (i = 10; i < progress.max; i++) {
-            setTimeout(function () {
-                progress.value += i;
-            }, 500);
-        }
-    }
+    progress.max = 100;
 
     xhr.open('POST', '/checksignup', true);
 
@@ -34,19 +25,36 @@ form.addEventListener('submit', function(ev) {
 
             var response = JSON.parse(xhr.responseText);
 
+            if (response.Allowed) {
+                progress.hidden = false;
+                myLoop ();
+
+                setTimeout(function () {
+                    progress.hidden = true;
+                    progress.value = 0;
+                    success.innerHTML = response.LoginMessage;
+                }, 2000);
+            }
+
             nameErr.innerHTML = response.EmailMessage;
-            success.innerHTML = response.LoginMessage;
             passwordErr.innerHTML = response.PasswordMessage;
             policyErr.innerHTML = response.PolicyMessage;
-
-            setTimeout(function () {
-                progress.hidden = true;
-                progress.value = 0;
-            }, 1100);
         }
     };
 
     xhr.send(oData);
     ev.preventDefault();
+
 }, false);
 
+var i = 1;
+
+function myLoop () {
+    setTimeout(function () {
+        progress.value += i;
+        i++;
+        if (i < 100) {
+            myLoop();
+        }
+    }, 8);
+}

@@ -31,12 +31,16 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.HandleFunc("/", handler.SignInHandler)
+	http.HandleFunc("/confirm", handler.ConfirmHandler)
 	http.HandleFunc("/favicon.ico", faviconHandler)
+	http.HandleFunc("/dashboard", handler.DashboardHandler)
 	http.HandleFunc("/policy", handler.PolicyHandler)
 	http.HandleFunc("/signin", handler.SignInHandler)
 	http.HandleFunc("/signup", handler.SignUpHandler)
 	http.HandleFunc("/signout", handler.SignOutHandler)
-	http.HandleFunc("/dashboard", handler.DashboardHandler)
+	http.HandleFunc("/disabled", handler.DisabledHandler)
+	http.HandleFunc("/suspended", handler.DisabledHandler)
+	http.HandleFunc("/revoked", handler.DisabledHandler)
 
 	//Ajax controller
 	http.HandleFunc("/checksignup", handler.CheckSignup)

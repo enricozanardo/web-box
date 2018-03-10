@@ -81,7 +81,8 @@ func CheckSignup(w http.ResponseWriter, req *http.Request) {
 			} else {
 				//if ok then send the email
 				message.Allowed = true
-				message.LoginMessage = "Well done! Your account has been made, please verify it by clicking the activation link that has been send to your email"
+				message.LoginMessage = "Well done! <br /> Your account has been made, please verify it " +
+					"by clicking the activation link that has been send to your email. <a href=\"/signin\">singin</a> "
 
 				userToken := mygprc.GenerateToken(usr, psw1)
 				recipient := pb_email.Recipient{usr,userToken, 0}
@@ -90,8 +91,6 @@ func CheckSignup(w http.ResponseWriter, req *http.Request) {
 
 				if response.Code != 200 {
 					message.LoginMessage = "It was not possible to send the email"
-				} else {
-					message.LoginMessage = "Well done! Your account has been made, please verify it by clicking the activation link that has been send to your email"
 				}
 			}
 		}
@@ -143,4 +142,80 @@ func createNewAccount(username, password string) (err error) {
 	return nil
 }
 
+// When an account is confirmed change the status of the account and allow the login
+func ConfirmHandler(w http.ResponseWriter, req *http.Request) {
+
+	loggedIn := AlreadyLoggedIn(req)
+
+	if loggedIn {
+		http.Redirect(w, req, "/dashboard", http.StatusSeeOther)
+		return
+	}
+
+	// process form submission
+	if req.Method == http.MethodGet {
+
+		keys, ok := req.URL.Query()["k"]
+
+		if !ok || len(keys) < 1 {
+			tracelog.Warning("signup", "ConfirmHandler", "Url Param 'key' is missing")
+			return
+		}
+
+		// Query()["key"] will return an array of items,
+		// we only want the single item.
+		key := keys[0]
+
+		token := pb_account.Token{key}
+
+		account := mygprc.GetAccountByToken(&token)
+
+		switch account.Status.Status  {
+
+		case pb_account.Status_NOTSET:
+			// update the status to ENABLED
+			account.Status.Status = pb_account.Status_ENABLED
+			// set the expiration 10 year forward
+			layout := "2006-01-02T15:04:05.000Z"
+			accountEndTime, err := time.Parse(layout, account.Expiration)
+
+			if err != nil {
+				tracelog.Errorf(err, "signup", "ConfirmHandler", "Error to convert the time")
+				return
+			}
+
+			exp := accountEndTime.Add(time.Duration(10*365*24*time.Hour))
+			newExpiration := exp.Format(layout)
+
+			account.Expiration = newExpiration
+			// update the Account
+			resp := mygprc.UpdateAccount(account)
+
+			if resp.Code != 200 {
+				err = errors.New("Error updating the account")
+				tracelog.Error(err, "signup", "ConfirmHandler")
+				return
+			}
+			// redirect to login
+			http.Redirect(w, req, "/signin", http.StatusSeeOther)
+
+		case pb_account.Status_ENABLED:
+			http.Redirect(w, req, "/signin", http.StatusSeeOther)
+
+		case pb_account.Status_DISABLED:
+			http.Redirect(w, req, "/disabled", http.StatusSeeOther)
+
+		case pb_account.Status_SUSPENDED:
+			http.Redirect(w, req, "/suspended", http.StatusSeeOther)
+
+		case pb_account.Status_REVOKED:
+			http.Redirect(w, req, "/revoked", http.StatusSeeOther)
+
+		default:
+			http.Redirect(w, req, "/", http.StatusSeeOther)
+		}
+	}
+
+	http.Redirect(w, req, "/", http.StatusSeeOther)
+}
 
