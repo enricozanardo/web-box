@@ -31,6 +31,7 @@ func TestCreateAccount(t *testing.T){
 		"Account",
 		"2018-01-11",
 		"2028-01-10",
+		nil,
 	}
 
 	resp:= CreateAccount(&fakeAccount)
@@ -102,6 +103,7 @@ func TestUpdateAccount(t *testing.T) {
 		"Account",
 		"2018-01-11",
 		"2058-01-10",
+		nil,
 	}
 
 	response := UpdateAccount(&fakeAccount)
