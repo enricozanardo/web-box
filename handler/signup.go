@@ -131,6 +131,7 @@ func createNewAccount(username, password string) (err error) {
 		"Account",
 		c,
 		e,
+		nil,
 	}
 
 	resp := mygprc.CreateAccount(&account)
