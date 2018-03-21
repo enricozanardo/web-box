@@ -9,11 +9,48 @@
                     <p>Dashboard</p>
                 </h3>
                 <p class="card-text">
-                    Bla bla bla
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="map" style="width:100%;height:600px;background:yellow"></div>
+                            <script src="/static/js/e-maps.js"></script>
+                            <script async defer
+                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtpvdvtmIpvs7gwVDAzgaFw9_evZwfRR4&callback=initMap">
+                            </script>
+                        </div>
+                        <div class="col-md-6">
+                            <form enctype="multipart/form-data" method="post" name="fileinfo">
+                                <div class="form-group">
+                                    <label for="inputAddress">Address</label>
+                                    <input class="form-control" name="inputAddress" id="inputAddress" placeholder="Enter Address">
+                                    <p class="form-field-err" id="address-err"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputNumber">Address Number</label>
+                                    <input class="form-control" name="inputNumber" id="inputNumber" placeholder="Es. 42/E">
+                                    <p class="form-field-err" id="address-number-err"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPostalCode">Postal Code</label>
+                                    <input class="form-control" name="inputPostalCode" id="inputPostalCode" placeholder="PostalCode">
+                                     <p class="form-field-err" id="postal-code-err"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPlace">Place</label>
+                                    <input class="form-control" name="inputPlace" id="inputPlace" placeholder="Insert the Place">
+                                    <p class="form-field-err" id="place-err"></p>
+                                </div>
+                                <input type="submit" class="btn btn-danger" value="Send Emergency!" />
+                                <p id="success"></p>
+                            </form>
+                        </div>
+                    </div>
                 </p>
             </div>
         </div>
     </div>
 </div>
+
+
+<script src="/static/js/e-notification.js"></script>
 
 {{ end }}

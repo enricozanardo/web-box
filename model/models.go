@@ -11,3 +11,12 @@ type Message struct {
 type MessageLoggedIn struct {
 	AlreadyLoggedIn bool
 }
+
+type EmergencyMessage struct {
+	EmergencyAddressMessage string
+	EmergencyNumberMessage string
+	EergencyPostalCodeMessage string
+	EmergencyPlaceMessage string
+	EmergencySuccessMessage string
+	EmergencyErrorMessage string
+}

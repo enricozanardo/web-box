@@ -4,6 +4,13 @@ import (
 	"net/http"
 	"html/template"
 	"github.com/onezerobinary/web-box/model"
+	"encoding/json"
+	"fmt"
+	"github.com/onezerobinary/web-box/mygprc"
+	pb_push "github.com/onezerobinary/push-box/proto"
+	pb_account "github.com/onezerobinary/db-box/proto/account"
+	"github.com/goinggo/tracelog"
+	"time"
 )
 
 var dashboard = template.Must(template.ParseFiles(
@@ -26,6 +33,8 @@ func DashboardHandler(w http.ResponseWriter, req *http.Request) {
 		// is logged in!
 		message.AlreadyLoggedIn = true
 	}
+
+	//TODO: Update the map lat and ltg based on the user login
 
 	dashboard.Execute(w, message)
 }
@@ -64,3 +73,91 @@ func AlreadyLoggedIn(req *http.Request) bool {
 }
 
 
+func PushHandler(w http.ResponseWriter, req *http.Request){
+
+	message := model.EmergencyMessage{}
+
+	if req.Method == http.MethodPost {
+
+		notification := pb_push.Info{}
+
+		//Retrieve all the data from the form
+		emergencyAddress := req.FormValue("inputAddress")
+		emergencyNumber := req.FormValue("inputNumber")
+		emergencyPostalCode := req.FormValue("inputPostalCode")
+		emergencyPlace := req.FormValue("inputPlace")
+
+		//Check the data
+		if len(emergencyAddress) == 0 {
+			message.EmergencyAddressMessage  = "Enter an address."
+		}
+
+		if len(emergencyNumber) == 0 {
+			message.EmergencyAddressMessage  = "Enter an address number."
+		}
+
+		if len(emergencyPostalCode) == 0 {
+			message.EmergencyAddressMessage  = "Enter a postal code."
+		}
+
+		if len(emergencyPlace) == 0 {
+			message.EmergencyAddressMessage  = "Enter a place."
+		}
+
+		//TODO: use geo-box
+		//Calculate the lat and lng
+		emergencyLat := "46.4894107"
+		emergencyLng := "11.3208888"
+
+		//TODO: use geo-box
+		//Collect the nearest devices
+		token := pb_account.Token{"2284fe70432bbef5a5354653c88d8e5cda2880dd"}
+
+		fakeAccount := mygprc.GetAccountByToken(&token)
+
+		for _, device := range fakeAccount.Expopushtoken {
+			notification.DeviceTokens = append(notification.DeviceTokens, device)
+		}
+
+		//trasform the time in the right format
+		emergencyTime := time.Now()
+		// Set the layout that are needed into the DB
+		layout := "2006-01-02T15:04:05.000Z"
+		etString := string(emergencyTime.Format(layout))
+
+		//Generate the emergency
+		emegency := pb_push.Emergency{}
+		emegency.Address = emergencyAddress
+		emegency.AddressNumber = emergencyNumber
+		emegency.PostalCode = emergencyPostalCode
+		emegency.Place = emergencyPlace
+		emegency.Lat = emergencyLat
+		emegency.Lng = emergencyLng
+		emegency.Time = etString
+
+		//Send the Notification
+		notification.Emergency = &emegency
+
+		resp := mygprc.SendNotifications(&notification)
+
+		if resp.Code != 200 || resp.Code != 0 {
+			warn := "Possible error in sending notifications" + string(resp.Code)
+			tracelog.Warning("dashboard", "PushHandler", warn)
+			//Notify the user
+			message.EmergencySuccessMessage = "Possible error in sending notifications"
+		} else {
+			message.EmergencySuccessMessage = "Notifications successfully sent"
+		}
+
+		//TODO: Store the Emergency into data into the DB
+
+	}
+
+	// send back the errors!
+	byteSlice, _ := json.Marshal(message)
+
+	// clean the message
+	message = model.EmergencyMessage{}
+
+	fmt.Fprint(w, string(byteSlice))
+}

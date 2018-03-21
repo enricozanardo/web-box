@@ -12,9 +12,14 @@ import (
 )
 
 
+const (
+	DB_ADDRESS = "localhost:1982"    // Development
+	//DB_ADDRESS = "172.104.230.81:1982" // Staging environment
+)
+
 func StartGRPCConnection() (connection *grpc.ClientConn){
 	// set up connection to the gRPC server
-	conn, err := grpc.Dial(ADDRESS, grpc.WithInsecure())
+	conn, err := grpc.Dial(DB_ADDRESS, grpc.WithInsecure())
 	if err != nil {
 		tracelog.Errorf(err, "GRPCaccountClient", "StartGRPCConnection", "Did not open the connection")
 		os.Exit(1)
