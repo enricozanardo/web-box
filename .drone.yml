@@ -1,7 +1,7 @@
 ---
 workspace:
   base: /go
-  path: src/github.com/onezerobinary/db-box
+  path: src/github.com/onezerobinary/web-box
 
 pipeline:
 
