@@ -13,6 +13,7 @@ pipeline:
       - glide install
       - go build
 #      - go test -v ./mygprc
+#      - go test -v ./mygprc
 
   docker:
     image: plugins/docker
