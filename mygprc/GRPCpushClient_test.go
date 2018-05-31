@@ -27,7 +27,8 @@ func TestSendNotifications(t *testing.T) {
 	info := pb_push.Info{}
 	info.Emergency = &fakeEmegency
 
-	token := pb_account.Token{"2284fe70432bbef5a5354653c88d8e5cda2880dd"}
+	//token := pb_account.Token{"2284fe70432bbef5a5354653c88d8e5cda2880dd"}
+	token := pb_account.Token{"46a249c795cda18c1d8143a781871e1e95d2e011"}
 
 	fakeAccount, err := mygprc.GetAccountByToken(&token)
 
