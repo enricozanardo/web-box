@@ -12,7 +12,7 @@ pipeline:
       - go get -u github.com/Masterminds/glide
       - glide install
       - go build
-      - go test -v ./mygprc
+#      - go test -v ./mygprc
 
   docker:
     image: plugins/docker
