@@ -14,7 +14,7 @@ import (
 
 const (
 	//DB_ADDRESS = "localhost:1982"    // Development
-	DB_ADDRESS = "couchdb:1982" // Staging environment
+	DB_ADDRESS = "db-box:1982" // Staging environment
 )
 
 func StartGRPCConnection() (connection *grpc.ClientConn){
