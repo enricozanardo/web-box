@@ -11,7 +11,7 @@ import (
 const (
 	//PUSHSERVICEADDRESS = "localhost:1972"    // Development
 	//PUSHSERVICEADDRESS = "172.104.230.81:1972" // Old Staging environment
-	PUSHSERVICEADDRESS = "46.101.149.16:1972" // Staging environment
+	PUSHSERVICEADDRESS = "push-box:1972" // Staging environment
 )
 
 func StartPushGRPCConnection() (connection *grpc.ClientConn){

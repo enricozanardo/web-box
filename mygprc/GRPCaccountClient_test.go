@@ -7,6 +7,17 @@ import (
 	"fmt"
 )
 
+
+func TestConnectToDB(t *testing.T){
+
+	tracelog.Start(tracelog.LevelTrace)
+	defer tracelog.Stop()
+
+	StartGRPCConnection()
+
+	tracelog.Completed("testDB", "TestConnectToDB")
+}
+
 func TestCreateAccount(t *testing.T){
 
 	tracelog.Start(tracelog.LevelTrace)

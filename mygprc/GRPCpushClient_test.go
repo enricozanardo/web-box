@@ -30,11 +30,11 @@ func TestSendNotifications(t *testing.T) {
 	//token := pb_account.Token{"2284fe70432bbef5a5354653c88d8e5cda2880dd"}
 	token := pb_account.Token{"46a249c795cda18c1d8143a781871e1e95d2e011"}
 
-	fakeAccount, err := mygprc.GetAccountByToken(&token)
+	fakeAccount := mygprc.GetAccountByToken(&token)
 
-	if err != nil {
-		tracelog.Error(err, "GRPCpushClient", "TestSendNotification")
-	}
+	//if err != nil {
+	//	tracelog.Error(err, "GRPCpushClient", "TestSendNotification")
+	//}
 
 	for _, device := range fakeAccount.Expopushtoken {
 		info.DeviceTokens = append(info.DeviceTokens, device)
@@ -42,9 +42,9 @@ func TestSendNotifications(t *testing.T) {
 
 	status := SendNotifications(&info)
 
-	if err != nil {
-		fmt.Println("err: ", err)
-	}
+	//if err != nil {
+	//	fmt.Println("err: ", err)
+	//}
 
 	fmt.Println("code: ", &status)
 }
