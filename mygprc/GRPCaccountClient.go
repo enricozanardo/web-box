@@ -9,17 +9,22 @@ import (
 	"io"
 	pb_account "github.com/onezerobinary/db-box/proto/account"
 	"google.golang.org/grpc"
+	"github.com/spf13/viper"
 )
 
-
-const (
-	//DB_ADDRESS = "localhost:1982"    // Development
-	DB_ADDRESS = "db-box:1982" // Staging environment
-)
 
 func StartGRPCConnection() (connection *grpc.ClientConn){
+
+	// Get info from production or local
+	DBaddress := os.Getenv("DB_ADDRESS")
+
+	if len(DBaddress) == 0 {
+		DBaddress = viper.GetString("service.db-box")
+		tracelog.Warning("GRPCaccountClient", "StartGRPCConnection", "####### Development #########")
+	}
+
 	// set up connection to the gRPC server
-	conn, err := grpc.Dial(DB_ADDRESS, grpc.WithInsecure())
+	conn, err := grpc.Dial(DBaddress, grpc.WithInsecure())
 	if err != nil {
 		tracelog.Errorf(err, "GRPCaccountClient", "StartGRPCConnection", "Did not open the connection")
 		os.Exit(1)

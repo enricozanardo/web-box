@@ -5,13 +5,25 @@ import (
 	"github.com/goinggo/tracelog"
 	pb_account "github.com/onezerobinary/db-box/proto/account"
 	"fmt"
+	"github.com/spf13/viper"
 )
 
+
+func startConfig(){
+	viper.SetConfigName("config")
+	viper.AddConfigPath("../")
+
+	if err := viper.ReadInConfig(); err != nil {
+		tracelog.Errorf(err, "database_test", "StartConfig", "Error reading config file")
+	}
+}
 
 func TestConnectToDB(t *testing.T){
 
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
+
+	startConfig()
 
 	StartGRPCConnection()
 
@@ -22,6 +34,8 @@ func TestCreateAccount(t *testing.T){
 
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
+
+	startConfig()
 
 	username := "enrico@enrico.com"
 	password := "enrico"
@@ -57,6 +71,8 @@ func TestGetAccountByToken(t *testing.T) {
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
+	startConfig()
+
 	username := "enrico@enrico.com"
 	password := "enrico"
 
@@ -75,6 +91,8 @@ func TestGetAccountByCredentials(t *testing.T) {
 
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
+
+	startConfig()
 
 	username := "enrico@enrico.com"
 	password := "enrico"
@@ -96,6 +114,8 @@ func TestUpdateAccount(t *testing.T) {
 
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
+
+	startConfig()
 
 	username := "enrico@enrico.com"
 	password := "enrico"
@@ -129,6 +149,8 @@ func TestCheckEmail(t *testing.T) {
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
+	startConfig()
+
 	fakeEmail := pb_account.Email{"enrico@enrico.com"}
 
 	response := CheckEmail(&fakeEmail)
@@ -145,6 +167,8 @@ func TestSetAccountStatus(t *testing.T) {
 
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
+
+	startConfig()
 
 	faketoken := pb_account.Token{"2284fe70432bbef5a5354653c88d8e5cda2880dd"}
 	newStatus := pb_account.Status{pb_account.Status_ENABLED}
@@ -163,6 +187,8 @@ func TestGetAccountStatus(t *testing.T) {
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
+	startConfig()
+
 	faketoken := pb_account.Token{"2284fe70432bbef5a5354653c88d8e5cda2880dd"}
 
 	status := GetAccountStatus(&faketoken)
@@ -177,6 +203,8 @@ func TestGetAccountsByStatus(t *testing.T) {
 
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
+
+	startConfig()
 
 	fakeStatus := pb_account.Status{pb_account.Status_ENABLED}
 
@@ -196,6 +224,8 @@ func TestGetAccounts(t *testing.T) {
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
+	startConfig()
+
 	empty := pb_account.Empty{}
 
 	accounts := GetAccounts(&empty)
@@ -213,6 +243,8 @@ func TestDeleteAccount(t *testing.T) {
 
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
+
+	startConfig()
 
 	username := "enrico@enrico.com"
 	password := "enrico"

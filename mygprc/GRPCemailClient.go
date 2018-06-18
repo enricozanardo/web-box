@@ -6,17 +6,23 @@ import (
 	"os"
 	pb_email "github.com/onezerobinary/email-box/proto"
 	"google.golang.org/grpc"
+	"github.com/spf13/viper"
 )
 
-const (
-	//EMAILSERVICEADDRESS = "localhost:1976"    // Development
-	EMAILSERVICEADDRESS = "email-box:1976" // Staging environment
-)
 
 
 func StartEmailGRPCConnection() (connection *grpc.ClientConn){
+
+	// Get info from production or local
+	EmailServiceAddress := os.Getenv("EMAIL_SERVICE_ADDRESS")
+
+	if len(EmailServiceAddress) == 0 {
+		EmailServiceAddress = viper.GetString("service.email-box")
+		tracelog.Warning("GRPCaccountClient", "StartGRPCConnection", "####### Development #########")
+	}
+
 	// set up connection to the gRPC server
-	conn, err := grpc.Dial(EMAILSERVICEADDRESS, grpc.WithInsecure())
+	conn, err := grpc.Dial(EmailServiceAddress, grpc.WithInsecure())
 	if err != nil {
 		tracelog.Errorf(err, "GRPCaccountClient", "StartGRPCConnection", "Did not open the connection")
 		os.Exit(1)

@@ -6,6 +6,7 @@ import (
 	"github.com/onezerobinary/web-box/handler"
 	"os"
 	"github.com/goinggo/tracelog"
+	"github.com/spf13/viper"
 )
 
 type msg struct {
@@ -25,6 +26,16 @@ func main() {
 	if port = os.Getenv("PORT"); len(port) == 0 {
 		port = DEFAULT_PORT
 	}
+
+	//development environment
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+
+	if err := viper.ReadInConfig(); err != nil {
+		tracelog.Errorf(err, "main", "main", "Error reading config file")
+	}
+
+	tracelog.Warning("main", "main", "Using config file")
 
 	// Think about that declaration
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))

@@ -6,17 +6,21 @@ import (
 	"os"
 	pb_push "github.com/onezerobinary/push-box/proto"
 	"google.golang.org/grpc"
+	"github.com/spf13/viper"
 )
 
-const (
-	//PUSHSERVICEADDRESS = "localhost:1972"    // Development
-	//PUSHSERVICEADDRESS = "172.104.230.81:1972" // Old Staging environment
-	PUSHSERVICEADDRESS = "push-box:1972" // Staging environment
-)
 
 func StartPushGRPCConnection() (connection *grpc.ClientConn){
+
+	PushServiceAddress := os.Getenv("PUSH_SERVICE_ADDRESS")
+
+	if len(PushServiceAddress) == 0 {
+		PushServiceAddress = viper.GetString("service.push-box")
+		tracelog.Warning("GRPCpushClient", "StartGRPCConnection", "####### Development #########")
+	}
+
 	// set up connection to the gRPC server
-	conn, err := grpc.Dial(PUSHSERVICEADDRESS, grpc.WithInsecure())
+	conn, err := grpc.Dial(PushServiceAddress, grpc.WithInsecure())
 	if err != nil {
 		tracelog.Errorf(err, "GRPCpushClient", "StartGRPCConnection", "Did not open the connection")
 		os.Exit(1)

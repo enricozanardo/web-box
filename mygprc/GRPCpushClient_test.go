@@ -14,6 +14,8 @@ func TestSendNotifications(t *testing.T) {
 	tracelog.Start(tracelog.LevelTrace)
 	defer tracelog.Stop()
 
+	startConfig()
+
 	//Fake emergency
 	fakeEmegency := pb_push.Emergency{}
 	fakeEmegency.Address = "Via Roma"
