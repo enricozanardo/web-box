@@ -14,6 +14,7 @@ RUN cd $SRC_DIR; glide install
 # copy the static folders
 RUN cd $SRC_DIR; cp -R templates /app/.
 RUN cd $SRC_DIR; cp -R static /app/.
+RUN cd $SRC_DIR; cp config.yaml /app/.
 
 RUN cd $SRC_DIR; go build -o web-box; cp web-box /app/
 ENTRYPOINT ["./web-box"]
