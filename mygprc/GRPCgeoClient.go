@@ -41,8 +41,8 @@ func StopGeoGRPCConnection(connection *grpc.ClientConn){
 
 func CalculatePoint(address pb_geo.Address) (point *pb_geo.Point){
 
-	conn := StartPushGRPCConnection()
-	defer StopPushGRPCConnection(conn)
+	conn := StartGeoGRPCConnection()
+	defer StopGeoGRPCConnection(conn)
 	// Get the point providing the address
 	client := pb_geo.NewGeoServiceClient(conn)
 
@@ -59,8 +59,8 @@ func CalculatePoint(address pb_geo.Address) (point *pb_geo.Point){
 
 func GetDevices(researchArea pb_geo.ResearchArea) (devices *pb_geo.Devices) {
 
-	conn := StartPushGRPCConnection()
-	defer StopPushGRPCConnection(conn)
+	conn := StartGeoGRPCConnection()
+	defer StopGeoGRPCConnection(conn)
 	// Get the point providing the address
 	client := pb_geo.NewGeoServiceClient(conn)
 
