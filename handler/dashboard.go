@@ -106,12 +106,12 @@ func PushHandler(w http.ResponseWriter, req *http.Request){
 
 		//TODO: use geo-box
 		//Calculate the lat and lng
-		emergencyLat := "46.4894107"
-		emergencyLng := "11.3208888"
+		emergencyLat := "35.94866"
+		emergencyLng := "14.399999"
 
 		//TODO: use geo-box
 		//Collect the nearest devices
-		token := pb_account.Token{"2284fe70432bbef5a5354653c88d8e5cda2880dd"}
+		token := pb_account.Token{"d0a1a743194ff28f049f47b9b69c51563c2cfadf"}
 
 		fakeAccount := mygprc.GetAccountByToken(&token)
 
