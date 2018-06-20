@@ -6,6 +6,7 @@ import:
 - package: github.com/goinggo/tracelog
 - package: golang.org/x/net/context
 - package: github.com/onezerobinary/db-box/proto/account
+- package: github.com/onezerobinary/geo-box/proto
 - package: google.golang.org/grpc
 - package: github.com/satori/go.uuid
 - package: github.com/onezerobinary/web-box/model
