@@ -2,3 +2,4 @@ service:
   db-box: "db-box:1982"
   email-box: "email-box:1976"
   push-box: "push-box:1972"
+  geo-box: "geo-box:1973"

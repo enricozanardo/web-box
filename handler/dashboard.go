@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"github.com/onezerobinary/web-box/mygprc"
 	pb_push "github.com/onezerobinary/push-box/proto"
-	pb_account "github.com/onezerobinary/db-box/proto/account"
+	pb_geo "github.com/onezerobinary/geo-box/proto"
 	"github.com/goinggo/tracelog"
 	"time"
 )
@@ -104,18 +104,32 @@ func PushHandler(w http.ResponseWriter, req *http.Request){
 			message.EmergencyAddressMessage  = "Enter a place."
 		}
 
-		//TODO: use geo-box
-		//Calculate the lat and lng
-		emergencyLat := "35.94866"
-		emergencyLng := "14.399999"
+		//use geo-box
+		address := pb_geo.Address{}
+		address.Address = emergencyAddress
+		address.AddressNumber = emergencyNumber
+		address.PostalCode = emergencyPostalCode
+		address.Place = emergencyPlace
 
-		//TODO: use geo-box
+		point := mygprc.CalculatePoint(address)
+
+		//From float32 to string
+		emergencyLat := fmt.Sprintf("%f", point.Latitude)
+		emergencyLng := fmt.Sprintf("%f", point.Longitude)
+
+		//use geo-box
 		//Collect the nearest devices
-		token := pb_account.Token{"d0a1a743194ff28f049f47b9b69c51563c2cfadf"}
+		researchArea := pb_geo.ResearchArea{}
+		researchArea.Point = point
+		researchArea.Precision = 5
 
-		fakeAccount := mygprc.GetAccountByToken(&token)
+		devices := mygprc.GetDevices(researchArea)
 
-		for _, device := range fakeAccount.Expopushtoken {
+		//token := pb_account.Token{"d0a1a743194ff28f049f47b9b69c51563c2cfadf"}
+		//
+		//fakeAccount := mygprc.GetAccountByToken(&token)
+
+		for _, device := range devices.Expopushtoken {
 			notification.DeviceTokens = append(notification.DeviceTokens, device)
 		}
 
