@@ -148,6 +148,7 @@ func PushHandler(w http.ResponseWriter, req *http.Request){
 		emegency.Lat = emergencyLat
 		emegency.Lng = emergencyLng
 		emegency.Time = etString
+		emegency.IsActive = true
 
 		//Send the Notification
 		notification.Emergency = &emegency
