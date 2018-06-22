@@ -134,6 +134,8 @@ func createNewAccount(username, password string) (err error) {
 		nil,
 		"user",
 	}
+	
+	tracelog.Trace("signup","createNewAccount",account.Role)
 
 	resp := mygprc.CreateAccount(&account)
 
