@@ -87,6 +87,8 @@ func CheckSignin(w http.ResponseWriter, req *http.Request) {
 				message.LoginMessage = "Account not allowed to access: " + account.Status.Status.String()
 			}
 
+			tracelog.Trace("signin","CheckSignin",account.Role)
+
 			if account.Role != "manager" {
 				message.LoginMessage = "Account not allowed to use the Management System, please sign-in in the mobile application."
 			}
