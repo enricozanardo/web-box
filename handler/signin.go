@@ -85,12 +85,12 @@ func CheckSignin(w http.ResponseWriter, req *http.Request) {
 			//Only ENABLED account are allowed to access to the system
 			if account.Status.Status != pb_account.Status_ENABLED {
 				message.LoginMessage = "Account not allowed to access: " + account.Status.Status.String()
-
-				tracelog.Trace("signin","CheckSignin @#@#@#@#@#@",account.Role)
-				if account.Role != "manager" {
-					message.LoginMessage = "Account not allowed to use the Management System, please sign-in in the mobile application."
-				}
 			}
+
+			tracelog.Trace("signin","CheckSignin @#@#@#@#@#@",account.Role)
+			//if account.Role != "manager" {
+			//	message.LoginMessage = "Account not allowed to use the Management System, please sign-in in the mobile application."
+			//}
 		}
 
 		//Check that the email is not empty
